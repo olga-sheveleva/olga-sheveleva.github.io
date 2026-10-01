@@ -272,6 +272,8 @@ html.js .h2.soft{opacity:0;transform:translateY(14px)}
 html.js .h2.soft.go{opacity:1;transform:none;transition:opacity 1s ease,transform 1s ease}
 .stats{flex-wrap:wrap;row-gap:24px}
 @media (max-width:600px){.stats{gap:24px 28px}.stat b{font-size:36px}}
+/* три цифры в один ряд и на узком телефоне (01.10.2026) */
+@media (max-width:480px){.stats{flex-wrap:nowrap;justify-content:space-between;gap:12px}.stat{min-width:0}.stat b{font-size:clamp(26px,8.4vw,34px);white-space:nowrap}.stat span{font-size:13px}}
 /* v8: карточки мягко светятся при наведении */
 .card{transition:background-color .4s,border-color .6s,box-shadow .6s ease}
 @media (hover:hover){.card:hover{border-color:#c9d8ec;box-shadow:12px 14px 0 -2px var(--shadowc),0 0 34px rgba(50,95,147,.16),0 0 70px rgba(120,160,215,.12)}}
