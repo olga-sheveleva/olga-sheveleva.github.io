@@ -205,38 +205,6 @@ document.querySelectorAll('.btn.fill').forEach(function(b){
   });
 })();
 
-/* v8: фоновая музыка — тихо, по кругу; стартует с первого касания, выбор запоминается */
-(function(){
-  var btn=document.getElementById('mus');if(!btn)return;
-  var SRC='assets/audio/nocturne.mp3',VOL=0.14,au=null,gain=null,ctx=null,on=false;
-  function pref(){try{return localStorage.getItem('os-music');}catch(e){return null;}}
-  function save(v){try{localStorage.setItem('os-music',v);}catch(e){}}
-  function ui(){btn.classList.toggle('on',on);btn.setAttribute('aria-pressed',on?'true':'false');}
-  function ensure(){
-    if(au)return;
-    au=new Audio();au.src=SRC;au.loop=true;au.preload='auto';
-    try{var AC=window.AudioContext||window.webkitAudioContext;
-      if(AC){ctx=new AC();var n=ctx.createMediaElementSource(au);gain=ctx.createGain();gain.gain.value=0;n.connect(gain);gain.connect(ctx.destination);}
-    }catch(e){ctx=null;gain=null;}
-    if(!gain)au.volume=VOL;
-  }
-  function fade(to){if(gain){var t=ctx.currentTime;gain.gain.cancelScheduledValues(t);gain.gain.setValueAtTime(gain.gain.value,t);gain.gain.linearRampToValueAtTime(to,t+1.5);}}
-  function play(){ensure();if(ctx&&ctx.state==='suspended')ctx.resume();
-    var p=au.play();if(p&&p.catch)p.catch(function(){on=false;ui();});on=true;fade(VOL);ui();}
-  function stop(){if(!au){on=false;ui();return;}fade(0);on=false;ui();setTimeout(function(){if(!on)au.pause();},gain?1600:0);}
-  btn.addEventListener('click',function(){if(on){stop();save('off');}else{play();save('on');}});
-  function first(e){
-    if(btn.contains(e.target))return;
-    ['pointerup','touchend','click','keydown'].forEach(function(n){window.removeEventListener(n,first,true);});
-    if(pref()!=='off'&&!on)play();
-  }
-  /* звук разрешён только из «жеста»: отпускание пальца, клик, клавиша */
-  ['pointerup','touchend','click','keydown'].forEach(function(n){window.addEventListener(n,first,true);});
-  document.addEventListener('visibilitychange',function(){if(!au)return;
-    if(document.hidden){au.pause();}else if(on){if(ctx&&ctx.state==='suspended')ctx.resume();au.play().catch(function(){});}});
-  ui();
-})();
-
 /* активный пункт меню */
 (function(){
   var links=[].slice.call(document.querySelectorAll('.nav a'));

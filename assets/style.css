@@ -346,11 +346,3 @@ html:not(.dark) .thm-l,html.dark .thm-d{color:var(--ink);font-weight:500}
 @media (max-width:600px){.hdr .logo-name{font-size:15px;letter-spacing:.1em;white-space:nowrap}.hdr .logo-sub{font-size:8.5px;letter-spacing:.22em;white-space:nowrap}.hdr-act .btn-sm{padding:9px 16px}}
 @media (max-width:350px){.hdr .logo-name{font-size:13.5px;letter-spacing:.08em}.hdr-act .btn-sm{padding:8px 12px;font-size:13px}}
 @media (max-width:350px){.hdr .logo-name{font-size:12.5px;letter-spacing:.05em}.hdr .logo-sub{font-size:7.5px;letter-spacing:.16em}.hdr-in{column-gap:8px}}
-/* v8: кнопка музыки */
-.tbtn.mus{position:relative;font:400 17px/1 var(--serif);color:var(--mute)}
-.tbtn.mus:after{content:"";position:absolute;left:25%;right:25%;top:50%;height:1.5px;background:currentColor;transform:rotate(-45deg);transition:opacity .3s}
-.tbtn.mus.on{color:var(--blue);border-color:var(--blue)}
-.tbtn.mus.on:after{opacity:0}
-.tbtn.mus.on .mus-n{display:inline-block;animation:musB 2.4s ease-in-out infinite}
-@keyframes musB{50%{transform:translateY(-2px)}}
-@media (prefers-reduced-motion:reduce){.tbtn.mus.on .mus-n{animation:none}}
