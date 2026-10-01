@@ -161,6 +161,9 @@ html.js .pop.in{animation:popIn .65s ease forwards}
 .lb{position:fixed;inset:0;z-index:50;background:rgba(14,22,40,.92);display:none;align-items:center;justify-content:center;padding:20px}
 .lb.open{display:flex}
 .lb img{max-height:90vh;border-radius:12px}
+.lb video{display:none;max-height:90vh;max-width:100%;border-radius:12px}
+.lb.vid img{display:none}
+.lb.vid video{display:block}
 .lb-x{position:absolute;top:14px;right:18px;background:none;border:0;color:#fff;font-size:40px;cursor:pointer}
 
 /* mobile */
@@ -222,6 +225,7 @@ main,.ftr{zoom:var(--zoom,1)}
   transition:transform 1.3s cubic-bezier(.2,.8,.2,1),opacity 1.1s ease;transform:translateZ(-2200px) rotateX(18deg);opacity:0}
 .ring-wrap.go .inner{transform:none;opacity:1}
 .ring img{width:100%;height:100%;object-fit:cover;pointer-events:none}
+.ring video{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none}
 .ring-fade{position:absolute;top:0;bottom:0;width:12%;z-index:2;pointer-events:none}
 .ring-fade.l{left:0;background:linear-gradient(90deg,var(--bg2),transparent)}
 .ring-fade.r{right:0;background:linear-gradient(270deg,var(--bg2),transparent)}

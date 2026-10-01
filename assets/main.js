@@ -82,7 +82,7 @@ document.querySelectorAll('.cnt').forEach(function(el){
   window.addEventListener('pointerup',function(e){
     if(!drag)return;drag=false;
     if(moved<6){var el=document.elementFromPoint(e.clientX,e.clientY),f=el&&el.closest?el.closest('.ring figure'):null;
-      if(f){var im=f.querySelector('img');openLb(im.src,im.alt);vel=0;}}
+      if(f){var v=f.querySelector('video'),im=f.querySelector('img');if(v)openLbVideo(v);else openLb(im.src,im.alt);vel=0;}}
   });
   function turn(k){pause();vel=0;var target=rot+k*step,from=rot,t0=null;
     function an(ts){if(t0===null)t0=ts;var p=Math.min(1,(ts-t0)/500);rot=from+(target-from)*(1-Math.pow(1-p,3));paint();if(p<1)requestAnimationFrame(an);}
@@ -93,6 +93,12 @@ document.querySelectorAll('.cnt').forEach(function(el){
   window.addEventListener('resize',layout);
   window.__ringLayout=layout;
   layout();requestAnimationFrame(tick);
+  /* видео в кольце играет, только пока кольцо на экране: телефон не греется зря */
+  var vids=[].slice.call(ring.querySelectorAll('video'));
+  if(vids.length&&'IntersectionObserver' in window){
+    new IntersectionObserver(function(es){es.forEach(function(e){vids.forEach(function(v){
+      if(e.isIntersecting){var p=v.play();if(p&&p.catch)p.catch(function(){});}else v.pause();});});},{threshold:.05}).observe(wrap);
+  }
   onView(wrap,function(){
     figs.forEach(function(f,i){f.querySelector('.inner').style.transitionDelay=(i*70)+'ms';});
     wrap.classList.add('go');
@@ -100,9 +106,14 @@ document.querySelectorAll('.cnt').forEach(function(el){
 })();
 
 /* лайтбокс */
-var lb=document.getElementById('lb'),lbi=lb.querySelector('img');
-function openLb(src,alt){lbi.src=src;lbi.alt=alt||'';lb.classList.add('open');lb.setAttribute('aria-hidden','false');lb._t=Date.now();}
-function closeLb(){lb.classList.remove('open');lb.setAttribute('aria-hidden','true');}
+var lb=document.getElementById('lb'),lbi=lb.querySelector('img'),lbv=lb.querySelector('video');
+function openLb(src,alt){lb.classList.remove('vid');lbi.src=src;lbi.alt=alt||'';lb.classList.add('open');lb.setAttribute('aria-hidden','false');lb._t=Date.now();}
+function openLbVideo(v){/* видео крупно: тот же файл, что играет в кольце, без звука и по кругу */
+  lbv.poster=v.poster;lbv.setAttribute('aria-label',v.getAttribute('aria-label')||'');
+  var src=v.currentSrc||v.querySelector('source').src;if(lbv.src!==src)lbv.src=src;
+  lb.classList.add('vid','open');lb.setAttribute('aria-hidden','false');lb._t=Date.now();
+  var p=lbv.play();if(p&&p.catch)p.catch(function(){});}
+function closeLb(){lb.classList.remove('open');lb.setAttribute('aria-hidden','true');if(lbv)lbv.pause();}
 lb.addEventListener('click',function(){if(Date.now()-(lb._t||0)<450)return;closeLb();});/* тап, открывший фото, не закрывает его */
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLb();});
 
