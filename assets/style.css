@@ -390,3 +390,52 @@ html:not(.dark) .thm-l,html.dark .thm-d{color:var(--ink);font-weight:500}
 .doc-page{padding-top:0}
 .doc-page .hdr{position:sticky}
 .doc-page .hdr-in{display:flex;height:64px;padding-top:0;padding-bottom:0}
+
+/* ===== 04.10.2026: правки по проверке сайта ===== */
+/* шапка 521–960 px: «Записаться» всегда на экране, логотип в одну строку */
+@media (max-width:600px){.hdr .ico{display:none}}
+@media (min-width:601px) and (max-width:960px){
+  .nav{display:none}
+  .hdr-in{gap:16px}
+  .hdr-act{margin-left:auto;gap:10px}
+  .hdr .logo-name{font-size:17px;letter-spacing:.14em;white-space:nowrap}
+  .hdr .logo-sub{letter-spacing:.24em;white-space:nowrap}
+}
+@media (min-width:601px) and (max-width:840px){.hdr .ico{display:none}}
+@media (min-width:601px) and (max-width:760px){.thm-lb{display:none}}
+/* три цифры в один ряд и при крупном тексте (A+) */
+@media (min-width:481px){.stats{flex-wrap:nowrap}}
+@media (min-width:481px) and (max-width:1100px){.stats{gap:clamp(20px,3vw,56px)}.stat b{font-size:clamp(32px,3.6vw,44px)}}
+/* контраст мелкого текста в светлой теме */
+:root{--mute:#64758f;--gold:#9b7a45}
+html.dark{--mute:#8393ad;--gold:var(--sand)}
+.eyebrow,.logo-sub,.c-kind{color:var(--gold)}
+.eyebrow i{background:var(--gold)}
+.shine{background-image:linear-gradient(100deg,var(--gold) 0%,var(--gold) 42%,#f0d9a6 50%,var(--gold) 58%,var(--gold) 100%)}
+.ftr .logo-sub{color:var(--sand)}
+.ftr .shine{background-image:linear-gradient(100deg,var(--sand) 0%,var(--sand) 42%,#f0d9a6 50%,var(--sand) 58%,var(--sand) 100%)}
+.pnote{color:var(--text)}
+.ftr h3{margin:0 0 14px;font:400 12px var(--serif);letter-spacing:.3em;text-transform:uppercase;color:var(--sand)}
+/* без JavaScript карусель — лента с прокруткой, а не пустой блок */
+html:not(.js) .ring-wrap{height:auto;perspective:none;overflow-x:auto;overflow-y:hidden;cursor:auto;padding-bottom:12px}
+html:not(.js) .ring{position:static;width:auto;height:auto;display:flex;gap:14px;padding:0 24px;transform:none}
+html:not(.js) .ring figure{position:static;flex:0 0 auto;width:220px;height:363px;transform:none}
+html:not(.js) .ring .inner{transform:none;opacity:1}
+html:not(.js) .ring-fade,html:not(.js) .ring-ctl{display:none}
+html.js .ring .inner{transform:translateZ(-2200px) rotateX(18deg);opacity:0}
+html.js .ring-wrap.go .inner{transform:none;opacity:1}
+/* Safari: размытие под шапкой и запрет выделения в карусели */
+.hdr{-webkit-backdrop-filter:blur(10px)}
+.ring-wrap,.track img{-webkit-user-select:none}
+/* крестик лайтбокса — крупная зона нажатия */
+.lb-x{width:56px;height:56px;top:8px;right:8px;display:grid;place-items:center;line-height:1}
+/* очень узкий экран (280 px) */
+.cards{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr)}
+@media (max-width:900px){.cards{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:340px){.c-foot{flex-wrap:wrap}.card{padding:28px 20px 24px}}
+/* печать: шапка не повторяется, все разделы видны */
+@media print{
+  .hdr{position:static}body{padding-top:0}
+  html.js .pop,html.js .h2.soft,html.js .q .w,html.js .split .ch{opacity:1;transform:none;animation:none}
+  .ring-wrap,.ring-ctl,.lb,.sz,.thm,.ico{display:none}
+}

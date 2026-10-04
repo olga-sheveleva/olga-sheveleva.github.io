@@ -84,12 +84,15 @@ document.querySelectorAll('.cnt').forEach(function(el){
     if(moved<6){var el=document.elementFromPoint(e.clientX,e.clientY),f=el&&el.closest?el.closest('.ring figure'):null;
       if(f){var v=f.querySelector('video'),im=f.querySelector('img');if(v)openLbVideo(v);else openLb(im.src,im.alt);vel=0;}}
   });
+  window.addEventListener('pointercancel',function(){drag=false;});
   function turn(k){pause();vel=0;var target=rot+k*step,from=rot,t0=null;
     function an(ts){if(t0===null)t0=ts;var p=Math.min(1,(ts-t0)/500);rot=from+(target-from)*(1-Math.pow(1-p,3));paint();if(p<1)requestAnimationFrame(an);}
     requestAnimationFrame(an);}
   document.getElementById('rPrev').addEventListener('click',function(){turn(1);});
   document.getElementById('rNext').addEventListener('click',function(){turn(-1);});
-  wrap.addEventListener('keydown',function(e){if(e.key==='ArrowLeft')turn(1);if(e.key==='ArrowRight')turn(-1);});
+  wrap.addEventListener('keydown',function(e){if(e.key==='ArrowLeft')turn(1);if(e.key==='ArrowRight')turn(-1);
+    if(e.key==='Enter'||e.key===' '){var f=figs.filter(function(x){return x._front;})[0];if(!f)return;e.preventDefault();
+      var v=f.querySelector('video'),im=f.querySelector('img');if(v)openLbVideo(v);else openLb(im.src,im.alt);}});
   window.addEventListener('resize',layout);
   window.__ringLayout=layout;
   layout();requestAnimationFrame(tick);
@@ -198,7 +201,7 @@ document.querySelectorAll('.btn.fill').forEach(function(b){
 /* А5 — блеск бежит по золотым надписям и кнопкам «Записаться» */
 (function(){
   if(RM)return;
-  document.querySelectorAll('.eyebrow,.logo-sub,.c-kind,.ftr h4').forEach(function(el){el.classList.add('shine');});
+  document.querySelectorAll('.eyebrow,.logo-sub,.c-kind,.ftr h3,.ftr h4').forEach(function(el){el.classList.add('shine');});
   document.querySelectorAll('.btn.fill').forEach(function(b){
     if(!/Записаться/.test(b.textContent))return;
     var g=document.createElement('span');g.className='glint';b.appendChild(g);
