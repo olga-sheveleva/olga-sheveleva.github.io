@@ -28,6 +28,8 @@ a:hover .arr{transform:translateX(3px)}
 .hdr-act{display:flex;align-items:center;gap:14px}
 .ico{color:var(--ink);display:grid;place-items:center;width:36px;height:36px}
 .ico:hover{color:var(--blue)}
+.ico.ico-txt{width:auto;white-space:nowrap;font-size:14px;color:var(--text);padding:0 2px}
+.ico.ico-txt:hover{color:var(--blue)}
 
 /* buttons + 6.1 fill sweep */
 .btn{position:relative;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;isolation:isolate;
